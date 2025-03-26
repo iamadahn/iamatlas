@@ -33,7 +33,7 @@
 	leds {
 		compatible = "gpio-leds";
 		user_led: led {
-			gpios = <&gpioe 3 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpioe 3 GPIO_ACTIVE_LOW>;
 			label = "User LED";
 		};
 	};
