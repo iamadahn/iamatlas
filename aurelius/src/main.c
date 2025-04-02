@@ -2,7 +2,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
 
-#define SLEEP_TIME_MS 1000
+#define SLEEP_TIME_MS 100
 
 #define LED0_NODE DT_ALIAS(led0)
 

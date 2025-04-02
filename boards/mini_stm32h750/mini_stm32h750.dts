@@ -18,15 +18,15 @@
 		zephyr,console = &usart1;
 		zephyr,shell-uart = &usart1;
 		zephyr,sram = &sram0;
-		zephyr,flash = &flash0;
+		zephyr,flash = &w25q64_qspi;
 		zephyr,flash-controller = &w25q64_qspi;
+		zephyr,code-partition = &slot0_partition;
 	};
 
 	ext_memory: memory@90000000 {
 		compatible = "zephyr,memory-region";
 		reg = <0x90000000 DT_SIZE_M(8)>;
-		zephyr,memory-region = "EXTMEM";
-		/* The ATTR_MPU_EXTMEM attribut causing a MPU FAULT */
+		zephyr,memory-region = "FLASH";
 		zephyr,memory-attr = <( DT_MEM_ARM(ATTR_MPU_IO) )>;
 	};
 
