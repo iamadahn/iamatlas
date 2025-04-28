@@ -18,15 +18,13 @@
 		zephyr,console = &usart1;
 		zephyr,shell-uart = &usart1;
 		zephyr,sram = &sram0;
-		zephyr,flash = &w25q64_qspi;
-		zephyr,flash-controller = &w25q64_qspi;
-		zephyr,code-partition = &slot0_partition;
+		zephyr,flash = &ext_memory;
 	};
 
 	ext_memory: memory@90000000 {
 		compatible = "zephyr,memory-region";
 		reg = <0x90000000 DT_SIZE_M(8)>;
-		zephyr,memory-region = "FLASH";
+		zephyr,memory-region = "EXTMEM";
 		zephyr,memory-attr = <( DT_MEM_ARM(ATTR_MPU_IO) )>;
 	};
 
@@ -112,33 +110,6 @@ zephyr_udc0: &usbotg_fs {
 	};
 };
 
-&quadspi {
-	pinctrl-names = "default";
-	pinctrl-0 = <&quadspi_clk_pb2 &quadspi_bk1_ncs_pb6
-		&quadspi_bk1_io0_pd11 &quadspi_bk1_io1_pd12
-		&quadspi_bk1_io2_pe2 &quadspi_bk1_io3_pd13>;
-	flash-id = <1>;
-	status = "okay";
-
-	w25q64_qspi: qspi-nor-flash@90000000 {
-		compatible = "st,stm32-qspi-nor";
-		reg = <0x90000000 DT_SIZE_M(64)>; /* 64 Mbits */
-		qspi-max-frequency = <40000000>;
-		status = "okay";
-		spi-bus-width = <4>;
-		writeoc = "PP_1_1_4";
-
-		partitions {
-			compatible = "fixed-partitions";
-			#address-cells = <1>;
-			#size-cells = <1>;
-			slot0_partition: partition@0 {
-				reg = <0x00000000 DT_SIZE_M(64)>;
-			};
-		};
-	};
-};
-
 &spi1 {
 	pinctrl-0 = <&spi1_sck_pb3 &spi1_miso_pb4 &spi1_mosi_pd7>;
 	cs-gpios = <&gpiod 6 GPIO_ACTIVE_LOW>;
@@ -160,7 +131,7 @@ zephyr_udc0: &usbotg_fs {
 			#size-cells = <1>;
 			storage_partition: partition@0 {
 				label = "storage";
-				reg = <0x00000000 DT_SIZE_M(64)>;
+				reg = <0x00000000 DT_SIZE_M(8)>;
 			};
 		};
 	};
